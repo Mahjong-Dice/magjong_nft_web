@@ -7,7 +7,6 @@ function Profile() {
 
   return (
     <Card
-      style={{ width: 320 }}
       actions={[
         <Button key="view" type="default">
           View
@@ -18,7 +17,7 @@ function Profile() {
       ]}
     >
       <div style={{ marginTop: 8 }}>
-        <div style={{ fontWeight: 600 }}>{address}</div>
+        <div>{address}</div>
         <div>{chain?.name}</div>
         <div>{connector?.name}</div>
       </div>

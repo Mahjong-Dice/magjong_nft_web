@@ -1,4 +1,5 @@
 {
+  "address": "0x0165878A594ca255338adfa4d48449f69242Eb8F",
   "abi": [
     {
       "type": "function",
@@ -22,6 +23,19 @@
       ],
       "outputs": [],
       "stateMutability": "nonpayable"
+    },
+    {
+      "type": "event",
+      "name": "CounterChanged",
+      "inputs": [
+        {
+          "name": "newNumber",
+          "type": "uint256",
+          "indexed": true,
+          "internalType": "uint256"
+        }
+      ],
+      "anonymous": false
     }
   ]
 }
