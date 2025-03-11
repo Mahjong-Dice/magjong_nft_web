@@ -16,7 +16,7 @@ function ContractInteraction() {
   const account = useAccount()
   const chainName = account.chain?.name ?? 'Ethereum'
   const address: Address = CounterAbi[chainName as keyof typeof CounterAbi] as Address
-
+  
 
   const { data, error, isPending, refetch } = useReadContract({
     abi: CounterAbi.abi,
