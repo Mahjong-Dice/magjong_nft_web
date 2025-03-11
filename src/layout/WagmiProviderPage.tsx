@@ -5,6 +5,7 @@ import { config } from "@/config";
 import Profile from "../components/Profile";
 import ConnectComponent from "@/components/ConnectComponent";
 import ContractInteraction from "@/components/ContractInteraction";
+import MahjongNFT from "@/components/MahjongNFTTest";
 import { Flex } from "antd";
 
 const queryClient = new QueryClient();
@@ -16,7 +17,8 @@ function WagmiProviderPage() {
         <Flex gap={4} vertical>
           <ConnectComponent />
           <Profile />
-          <ContractInteraction />
+          <MahjongNFT />
+          {/* <ContractInteraction /> */}
         </Flex>
       </QueryClientProvider>
     </WagmiProvider>

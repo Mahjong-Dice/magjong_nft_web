@@ -1,0 +1,146 @@
+<canvas id="mahjongTable" width="800" height="400"></canvas>
+<script>
+const canvas = document.getElementById('mahjongTable');
+const ctx = canvas.getContext('2d');
+const tileWidth = 80, tileHeight = 110;
+const margin = 10;
+
+// 麻将牌类型配置
+const tileConfig = {
+  types: ['dot', 'bamboo', 'character', 'wind', 'dragon'],
+  colors: {
+    dot: '#C41E3A',      // 筒子-红
+    bamboo: '#2E8B57',   // 条子-绿
+    character: '#1E90FF',// 万子-蓝
+    honor: '#4B3621'     // 字牌-棕
+  },
+  windChars: ['東','南','西','北'],
+  dragonChars: ['中','發','白']
+};
+
+// 主生成函数
+function generateRandomTile(x, y) {
+  const type = tileConfig.types[Math.floor(Math.random() * tileConfig.types.length)];
+  drawBaseTile(x, y);
+  
+  switch(type) {
+    case 'dot':
+      drawDotTile(x, y, Math.ceil(Math.random() * 9));
+      break;
+    case 'bamboo':
+      drawBambooTile(x, y, Math.ceil(Math.random() * 9));
+      break;
+    case 'character':
+      drawCharacterTile(x, y, Math.ceil(Math.random() * 9));
+      break;
+    case 'wind':
+      drawHonorTile(x, y, tileConfig.windChars[Math.floor(Math.random()*4)]);
+      break;
+    case 'dragon':
+      drawHonorTile(x, y, tileConfig.dragonChars[Math.floor(Math.random()*3)]);
+      break;
+  }
+}
+
+// 基础牌面绘制
+function drawBaseTile(x, y) {
+  ctx.save();
+  // 绘制牌体
+  ctx.fillStyle = '#FFF7E0';
+  ctx.strokeStyle = '#6B4F4F';
+  ctx.lineWidth = 2;
+  roundedRect(ctx, x, y, tileWidth, tileHeight, 8);
+  ctx.fill();
+  ctx.stroke();
+  
+  // 顶部装饰线
+  ctx.beginPath();
+  ctx.strokeStyle = '#D4AF37';
+  ctx.arc(x + tileWidth/2, y + 50, 25, 0, Math.PI*2);
+  ctx.stroke();
+}
+
+// 筒子牌绘制
+function drawDotTile(x, y, num) {
+  ctx.fillStyle = tileConfig.colors.dot;
+  // 根据数量绘制圆点
+  const positions = getDotPositions(num);
+  positions.forEach(pos => {
+    ctx.beginPath();
+    ctx.arc(x + pos.x, y + pos.y, 6, 0, Math.PI*2);
+    ctx.fill();
+  });
+  drawTopText(x, y, num + '筒');
+}
+
+// 条子牌绘制（简化版竹节）
+function drawBambooTile(x, y, num) {
+  ctx.fillStyle = tileConfig.colors.bamboo;
+  // 绘制竹节
+  for(let i=0; i<num; i++) {
+    ctx.fillRect(x + 30, y + 30 + i*12, 20, 8);
+  }
+  drawTopText(x, y, num + '条');
+}
+
+// 万子牌绘制
+function drawCharacterTile(x, y, num) {
+  ctx.fillStyle = tileConfig.colors.character;
+  ctx.font = '24px Arial';
+  ctx.textAlign = 'center';
+  ctx.fillText(num, x + tileWidth/2, y + 60);
+  drawTopText(x, y, num + '万');
+}
+
+// 字牌绘制
+function drawHonorTile(x, y, char) {
+  ctx.fillStyle = tileConfig.colors.honor;
+  ctx.font = '32px STKaiti, Arial'; // 使用楷体更符合传统样式
+  ctx.textAlign = 'center';
+  ctx.fillText(char, x + tileWidth/2, y + 60);
+  drawTopText(x, y, char);
+}
+
+// 公共辅助函数
+function drawTopText(x, y, text) {
+  ctx.fillStyle = '#000';
+  ctx.font = '14px Arial';
+  ctx.fillText(text, x + tileWidth/2, y + 20);
+}
+
+function roundedRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+
+function getDotPositions(num) {
+  // 不同数量圆点的位置配置
+  const positionMap = {
+    1: [{x:40, y:60}],
+    2: [{x:30, y:50}, {x:50, y:70}],
+    3: [{x:40, y:50}, {x:30, y:70}, {x:50, y:70}],
+    4: [{x:30, y:40}, {x:40, y:40}, {x:50, y:40},
+    {x:30, y:60}],
+    // ...其他数量的位置配置
+    9: [{x:30, y:40}, {x:40, y:40}, {x:50, y:40},
+        {x:30, y:60}, {x:40, y:60}, {x:50, y:60},
+        {x:30, y:80}, {x:40, y:80}, {x:50, y:80}]
+  };
+  return positionMap[num] || positionMap[1];
+}
+
+// 生成示例：创建4x2的随机麻将牌阵
+for(let row=0; row<2; row++) {
+  for(let col=0; col<4; col++) {
+    generateRandomTile(
+      margin + col*(tileWidth + margin),
+      margin + row*(tileHeight + margin)
+    );
+  }
+}
+</script>
