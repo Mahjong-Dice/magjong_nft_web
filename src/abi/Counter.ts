@@ -1,5 +1,6 @@
-{
-  "address": "0x0165878A594ca255338adfa4d48449f69242Eb8F",
+export default {
+  "Anvil": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  "Sepolia": "0xFB97302543f1A4ce9B4362E4F9620F62f7264954",
   "abi": [
     {
       "type": "function",
@@ -37,5 +38,5 @@
       ],
       "anonymous": false
     }
-  ]
+  ] as const
 }

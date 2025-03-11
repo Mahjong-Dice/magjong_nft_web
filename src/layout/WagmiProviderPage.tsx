@@ -11,7 +11,7 @@ const queryClient = new QueryClient();
 
 function WagmiProviderPage() {
   return (
-    <WagmiProvider config={config} reconnectOnMount>
+    <WagmiProvider config={config} reconnectOnMount={true}>
       <QueryClientProvider client={queryClient}>
         <Flex gap={4} vertical>
           <ConnectComponent />

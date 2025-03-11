@@ -1,6 +1,5 @@
 import { useConnect, useAccount, useDisconnect } from "wagmi";
 import { Button, Flex } from "antd";
-import { injected } from "wagmi/connectors";
 import { config } from "@/config";
 import ChainSelect from "./ChainSelect";
 
@@ -8,6 +7,7 @@ const ConnectComponent: React.FC = () => {
   const { disconnect } = useDisconnect();
   const { connect, connectors } = useConnect({
     config: config,
+  
     mutation: {
       onSuccess: () => {
         console.log("Connected");
@@ -19,7 +19,6 @@ const ConnectComponent: React.FC = () => {
   });
 
   const account = useAccount();
-
   return (
     <Flex vertical>
       {account.address ? (
@@ -41,7 +40,7 @@ const ConnectComponent: React.FC = () => {
               type="primary"
               color="cyan"
               key={connector.id}
-              onClick={() => connect({ connector: injected() })}
+              onClick={() => connect({ connector: connector })}
               size="middle"
             >
               {connector.name}
